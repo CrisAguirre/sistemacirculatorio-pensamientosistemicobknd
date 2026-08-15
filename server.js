@@ -1,9 +1,11 @@
 const app = require('./src/app');
 const config = require('./src/config');
 const { connectDB } = require('./src/config/database');
+const { seedAdmin } = require('./src/seed');
 
 async function start() {
   await connectDB();
+  await seedAdmin();
 
   app.listen(config.port, () => {
     console.log(`\n🫀 Sistema Circulatorio API`);

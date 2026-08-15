@@ -25,4 +25,6 @@ module.exports = {
   mongodbUri: process.env.MONGODB_URI,
   frontendUrl,
   corsOrigins: [...new Set(corsOrigins)],
+  jwtSecret: process.env.JWT_SECRET || 'dev-insecure-secret',
+  jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
 };

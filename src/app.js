@@ -8,7 +8,7 @@ const apiRoutes = require('./routes/api.routes');
 const app = express();
 
 // Middlewares
-app.use(cors({ origin: config.corsOrigin }));
+app.use(cors({ origin: config.corsOrigins }));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

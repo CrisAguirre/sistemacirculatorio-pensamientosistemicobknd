@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const authRoutes = require('./auth.routes');
+const simulationRoutes = require('./simulation.routes');
+const examRoutes = require('./exam.routes');
+const progressRoutes = require('./progress.routes');
+const userRoutes = require('./user.routes');
 
 // Ruta de prueba
 router.get('/', (req, res) => {
@@ -13,11 +17,21 @@ router.get('/', (req, res) => {
       register: 'POST /api/auth/register',
       login: 'POST /api/auth/login',
       profile: 'GET /api/auth/profile',
+      simulations: 'GET /api/simulations',
+      exam: 'GET /api/exams/:id',
+      examSubmit: 'POST /api/exams/:id/submit',
+      progress: 'GET /api/progress/mine',
+      progressSave: 'POST /api/progress',
+      users: 'GET /api/users',
     },
   });
 });
 
 // Autenticación
 router.use('/auth', authRoutes);
+router.use('/simulations', simulationRoutes);
+router.use('/exams', examRoutes);
+router.use('/progress', progressRoutes);
+router.use('/users', userRoutes);
 
 module.exports = router;

@@ -27,4 +27,8 @@ module.exports = {
   corsOrigins: [...new Set(corsOrigins)],
   jwtSecret: process.env.JWT_SECRET || 'dev-insecure-secret',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
+  accessCodes: {
+    student: process.env.STUDENT_ACCESS_CODE || '2026#CAA-PS',
+    teacher: process.env.TEACHER_ACCESS_CODE || '2026@PS-CAA',
+  },
 };

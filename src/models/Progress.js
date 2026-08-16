@@ -12,6 +12,10 @@ const progressSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    completedSessions: {
+      type: [Number],
+      default: [],
+    },
     currentSimulationId: {
       type: String,
       default: null,

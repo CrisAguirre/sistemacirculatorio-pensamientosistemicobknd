@@ -2,7 +2,23 @@ const Exam = require('../models/Exam');
 const EXAMS = require('../data/exams');
 
 function toPublicQuestions(questions) {
-  return questions.map(({ id, text, options }) => ({ id, text, options }));
+  return questions.map(({ id, type, subtype, text, options, timeLimit }) => ({
+    id,
+    type,
+    subtype,
+    text,
+    options,
+    timeLimit,
+  }));
+}
+
+function gradeQuestion(question, answer) {
+  if (question.subtype === 'multiple') {
+    const selected = Array.isArray(answer?.selected) ? answer.selected.slice().sort() : [];
+    const correct = [...question.correctAnswers].sort();
+    return JSON.stringify(selected) === JSON.stringify(correct);
+  }
+  return answer?.selected === question.correctAnswers[0];
 }
 
 function getBySimulation(req, res) {
@@ -34,13 +50,12 @@ async function submit(req, res) {
     const total = bank.questions.length;
     const graded = bank.questions.map((question) => {
       const answer = answers.find((a) => a.questionId === question.id);
-      const selectedIndex = answer ? Number(answer.selectedIndex) : -1;
-      const isCorrect = selectedIndex === question.correctIndex;
+      const isCorrect = gradeQuestion(question, answer);
       if (isCorrect) score += 1;
       return {
         questionId: question.id,
-        selectedIndex,
-        correctIndex: question.correctIndex,
+        selected: answer?.selected ?? null,
+        correct: question.correctAnswers,
         isCorrect,
       };
     });

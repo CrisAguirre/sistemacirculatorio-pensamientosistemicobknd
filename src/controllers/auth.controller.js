@@ -5,7 +5,7 @@ const config = require('../config');
 
 function generateToken(user) {
   return jwt.sign(
-    { id: user._id, username: user.username, role: user.role },
+    { id: user._id, documento: user.documento, role: user.role },
     config.jwtSecret,
     { expiresIn: config.jwtExpiresIn }
   );
@@ -14,33 +14,46 @@ function generateToken(user) {
 function publicUser(user) {
   return {
     id: user._id,
-    username: user.username,
-    email: user.email,
+    documento: user.documento,
     full_name: user.full_name,
+    edad: user.edad,
+    grado: user.grado,
+    telefono: user.telefono,
     role: user.role,
   };
 }
 
 async function register(req, res) {
   try {
-    const { username, email, password, full_name } = req.body;
+    const { documento, full_name, edad, grado, telefono, password, accessCode } = req.body;
 
-    if (!username || !email || !password || !full_name) {
-      return res.status(400).json({ error: 'Todos los campos son obligatorios' });
+    if (!documento || !full_name || !password || !accessCode) {
+      return res.status(400).json({ error: 'Documento, nombre completo, contraseña y código de acceso son obligatorios' });
     }
 
-    const existing = await User.findOne({ $or: [{ username }, { email }] });
+    let role = 'student';
+    if (accessCode === config.accessCodes.teacher) {
+      role = 'teacher';
+    } else if (accessCode === config.accessCodes.student) {
+      role = 'student';
+    } else {
+      return res.status(400).json({ error: 'Código de acceso inválido' });
+    }
+
+    const existing = await User.findOne({ documento });
     if (existing) {
-      return res.status(409).json({ error: 'El usuario o email ya existe' });
+      return res.status(409).json({ error: 'El documento ya está registrado' });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
-      username,
-      email,
-      password: hashedPassword,
+      documento,
       full_name,
-      role: 'student',
+      edad: edad || undefined,
+      grado: grado || undefined,
+      telefono: telefono || undefined,
+      password: hashedPassword,
+      role,
     });
 
     res.status(201).json({
@@ -56,15 +69,13 @@ async function register(req, res) {
 
 async function login(req, res) {
   try {
-    const { username, password } = req.body;
+    const { documento, password } = req.body;
 
-    if (!username || !password) {
-      return res.status(400).json({ error: 'Usuario y contraseña son obligatorios' });
+    if (!documento || !password) {
+      return res.status(400).json({ error: 'Documento y contraseña son obligatorios' });
     }
 
-    const user = await User.findOne({
-      $or: [{ username: username.toLowerCase() }, { email: username.toLowerCase() }],
-    });
+    const user = await User.findOne({ documento: String(documento).trim() });
 
     if (!user) {
       return res.status(401).json({ error: 'Credenciales inválidas' });

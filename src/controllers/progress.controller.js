@@ -23,7 +23,7 @@ async function getMine(req, res) {
 
 async function save(req, res) {
   try {
-    const { completedSimulation, currentSimulationId, simulationId, score, data } = req.body;
+    const { completedSimulation, completedSession, currentSimulationId, simulationId, score, data } = req.body;
 
     let progress = await Progress.findOne({ user: req.user.id });
     if (!progress) {
@@ -32,6 +32,10 @@ async function save(req, res) {
 
     if (completedSimulation && !progress.completedSimulations.includes(completedSimulation)) {
       progress.completedSimulations.push(completedSimulation);
+    }
+
+    if (completedSession && !progress.completedSessions.includes(completedSession)) {
+      progress.completedSessions.push(completedSession);
     }
 
     if (currentSimulationId !== undefined) {

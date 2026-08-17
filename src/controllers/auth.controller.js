@@ -25,20 +25,14 @@ function publicUser(user) {
 
 async function register(req, res) {
   try {
-    const { documento, full_name, edad, grado, telefono, password, accessCode } = req.body;
+    const { documento, full_name, edad, grado, telefono, password, role } = req.body;
 
-    if (!documento || !full_name || !password || !accessCode) {
-      return res.status(400).json({ error: 'Documento, nombre completo, contraseña y código de acceso son obligatorios' });
+    if (!documento || !full_name || !password) {
+      return res.status(400).json({ error: 'Documento, nombre completo y contraseña son obligatorios' });
     }
 
-    let role = 'student';
-    if (accessCode === config.accessCodes.teacher) {
-      role = 'teacher';
-    } else if (accessCode === config.accessCodes.student) {
-      role = 'student';
-    } else {
-      return res.status(400).json({ error: 'Código de acceso inválido' });
-    }
+    const allowedRoles = ['student', 'teacher', 'admin'];
+    const newRole = allowedRoles.includes(role) ? role : 'student';
 
     const existing = await User.findOne({ documento });
     if (existing) {
@@ -53,12 +47,11 @@ async function register(req, res) {
       grado: grado || undefined,
       telefono: telefono || undefined,
       password: hashedPassword,
-      role,
+      role: newRole,
     });
 
     res.status(201).json({
-      message: 'Usuario registrado exitosamente',
-      token: generateToken(user),
+      message: 'Usuario creado exitosamente',
       user: publicUser(user),
     });
   } catch (error) {

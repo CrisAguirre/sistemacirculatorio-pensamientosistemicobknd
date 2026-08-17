@@ -72,22 +72,22 @@ async function seedUsers() {
   );
 
   const estudiantes = [
-    { documento: '1000000002', full_name: 'Sofía Martínez Ramírez' },
-    { documento: '1000000003', full_name: 'Mateo Gutiérrez Pérez' },
-    { documento: '1000000004', full_name: 'Valentina Rodríguez Torres' },
-    { documento: '1000000005', full_name: 'Santiago Hernández Cruz' },
-    { documento: '1000000006', full_name: 'Mariana López Gómez' },
-    { documento: '1000000007', full_name: 'Sebastián Morales Ríos' },
-    { documento: '1000000008', full_name: 'Isabella Torres Vargas' },
-    { documento: '1000000009', full_name: 'Nicolás Ramírez Suárez' },
-    { documento: '1000000010', full_name: 'Camila Castro Mendoza' },
-    { documento: '1000000011', full_name: 'Samuel Jiménez Ospina' },
+    { documento: 'E001', full_name: 'Estudiante 1', password: 'E001@' },
+    { documento: 'E002', full_name: 'Estudiante 2', password: 'E002@' },
+    { documento: 'E003', full_name: 'Estudiante 3', password: 'E003@' },
+    { documento: 'E004', full_name: 'Estudiante 4', password: 'E004@' },
+    { documento: 'E005', full_name: 'Estudiante 5', password: 'E005@' },
+    { documento: 'E006', full_name: 'Estudiante 6', password: 'E006@' },
+    { documento: 'E007', full_name: 'Estudiante 7', password: 'E007@' },
+    { documento: 'E008', full_name: 'Estudiante 8', password: 'E008@' },
+    { documento: 'E009', full_name: 'Estudiante 9', password: 'E009@' },
+    { documento: 'E010', full_name: 'Estudiante 10', password: 'E010@' },
   ];
 
   for (const estudiante of estudiantes) {
     await createUser(
-      { ...estudiante, role: 'student', edad: 13, grado: '8°' },
-      'Estudiante2026',
+      { documento: estudiante.documento, full_name: estudiante.full_name, role: 'student', edad: 13, grado: '8°' },
+      estudiante.password,
       `Estudiante ${estudiante.documento}`
     );
   }

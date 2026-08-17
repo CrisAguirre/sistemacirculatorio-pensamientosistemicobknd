@@ -70,6 +70,27 @@ async function seedUsers() {
     'Estudiante2026',
     'Estudiante demo'
   );
+
+  const estudiantes = [
+    { documento: '1000000002', full_name: 'Sofía Martínez Ramírez' },
+    { documento: '1000000003', full_name: 'Mateo Gutiérrez Pérez' },
+    { documento: '1000000004', full_name: 'Valentina Rodríguez Torres' },
+    { documento: '1000000005', full_name: 'Santiago Hernández Cruz' },
+    { documento: '1000000006', full_name: 'Mariana López Gómez' },
+    { documento: '1000000007', full_name: 'Sebastián Morales Ríos' },
+    { documento: '1000000008', full_name: 'Isabella Torres Vargas' },
+    { documento: '1000000009', full_name: 'Nicolás Ramírez Suárez' },
+    { documento: '1000000010', full_name: 'Camila Castro Mendoza' },
+    { documento: '1000000011', full_name: 'Samuel Jiménez Ospina' },
+  ];
+
+  for (const estudiante of estudiantes) {
+    await createUser(
+      { ...estudiante, role: 'student', edad: 13, grado: '8°' },
+      'Estudiante2026',
+      `Estudiante ${estudiante.documento}`
+    );
+  }
 }
 
 module.exports = { seedAdmin: seedUsers, seedUsers };

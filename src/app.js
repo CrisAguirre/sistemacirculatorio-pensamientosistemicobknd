@@ -34,6 +34,7 @@ app.use((req, res) => {
 });
 
 // Manejo de errores global
+// eslint-disable-next-line no-unused-vars -- `next` es obligatorio en la firma de 4 args para que Express identifique este middleware como manejador de errores
 app.use((err, req, res, next) => {
   console.error('Error:', err.message);
   res.status(err.status || 500).json({

@@ -1,5 +1,25 @@
 const SIMULATIONS = [
   {
+    id: 'introduccion',
+    number: 0,
+    title: 'Laboratorio de Introducción',
+    slug: 'introduccion',
+    icon: '🎬',
+    description: 'Presentación de la secuencia didáctica y pensamiento sistémico.',
+    routePath: '/laboratorio/introduccion',
+    category: 'introduccion',
+  },
+  {
+    id: 'apropiacion',
+    number: 0.5,
+    title: 'Apropiación',
+    slug: 'apropiacion',
+    icon: '🛠️',
+    description: 'Espacio de construcción y reflexión grupal.',
+    routePath: '/laboratorio/apropiacion',
+    category: 'introduccion',
+  },
+  {
     id: 'corazon',
     number: 1,
     title: 'El Corazón',

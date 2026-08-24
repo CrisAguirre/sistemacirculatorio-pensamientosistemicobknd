@@ -1,6 +1,6 @@
 // Secuencia didáctica (7 sesiones) — pensamiento sistémico aplicado al sistema circulatorio.
 // Lineamientos (Dr. Eliécer Pineda Ballesteros, UDES):
-//   1 Componentes, 2 Causalidad, 3 Escalas, 4 Representación,
+//   1 Componentes, 2 Causalidad, 3 Representación, 4 Escalas,
 //   5 Conservación/Balance, 6 Propósito, 7 Estabilidad/Resiliencia.
 
 const SESSIONS = [
